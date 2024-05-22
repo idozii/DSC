@@ -5,10 +5,14 @@
 #include<climits>
 #include<algorithm>
 #include<string>
+#include<iomanip>
+#include<cmath>
+#include<cstring>
+#include<cassert>
 
 class BellF { 
 
 public:
      void BF(std::vector<std::vector<int>>& graph, int vertices, char Start, std::vector<std::vector<int>>& Value, std::vector<std::vector<int>>& Previous);
-     string BF_Path(std::vector<std::vector<int>>& graph, int vertices, char Start, char Goal);
+     std::string BF_Path(std::vector<std::vector<int>>& graph, int vertices, char Start, char Goal);
 };

@@ -1,13 +1,12 @@
 #include "tsm.h"
 
-string TSM::Travelling(std::vector<std::vector<int>>& graph, int num, char Start) {
-     /*write function Traveling() to calculate the shortest
-way to go over all the vertices in the graph and go back to the starting vertex.*/
+std::string TSM::Travelling(std::vector<std::vector<int>>& graph, int num, char Start) {
      std::vector<std::vector<int>> Value(1, std::vector<int>(num, INT_MAX));
      std::vector<std::vector<int>> Previous(1, std::vector<int>(num, -1));
      Value[0][Start - 'A'] = 0;
      for(int i = 0; i < num - 1; i++){
-          BellF::BF(graph, num, Start - 'A', Value, Previous);
+          BellF bellF;
+          bellF.BF(graph, num, Start - 'A', Value, Previous);
      }
      std::string path = "";
      int current = Start - 'A';

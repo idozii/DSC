@@ -18,7 +18,7 @@ std::string BellmanFord::BF_Path(int graph[20][20], int vertices, char Start, ch
      int Value[20];
      int Previous[20];
      for(int i = 0; i < vertices; i++){
-          Value[i] = INT_MAX;
+          Value[i] = __INT_MAX__;
           Previous[i] = -1;
      }
      Value[Start - 'A'] = 0;
@@ -30,7 +30,7 @@ std::string BellmanFord::BF_Path(int graph[20][20], int vertices, char Start, ch
      std::string path = "";
      int current = Goal - 'A';
      while(current != Start - 'A'){
-          path = path + (char)(current + 'A');
+          path = path + " " + (char)(current + 'A');
           current = Previous[current];
      }
      path = Start + path;

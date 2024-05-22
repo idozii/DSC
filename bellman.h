@@ -16,6 +16,6 @@ class TestStudy;
 class BellmanFord { 
 
 public:
-     void BF(std::vector<std::vector<int>>& graph, int vertices, char Start, std::vector<std::vector<int>>& Value, std::vector<std::vector<int>>& Previous);
-     std::string BF_Path(std::vector<std::vector<int>>& graph, int vertices, char Start, char Goal);
+     void BF(int graph[20][20], int vertices, char Start, int Value[20], int Previous[20]);
+     std::string BF_Path(int graph[20][20], int vertices, char Start, char Goal);
 };

@@ -15,6 +15,6 @@ class TestStudy;
 class TSM {
 
 public:
-     void tsm(std::vector<std::vector<int>>& graph, int vertices, char Start, std::vector<std::vector<int>>& Value, std::vector<std::vector<int>>& Previous);
-     std::string Travelling(std::vector<std::vector<int>>& graph, int num, char Start);
+     void tsm(int graph[20][20], int vertices, char Start, int Value[20], int Previous[20]);
+     std::string Travelling(int graph[20][20], int num, char Start);
 };

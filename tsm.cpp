@@ -1,12 +1,27 @@
 #include "tsm.h"
 
+class TSM;
+class TestStudy;
+
+void TSM::tsm(std::vector<std::vector<int>>& graph, int vertices, char Start, std::vector<std::vector<int>>& Value, std::vector<std::vector<int>>& Previous){
+     for(int i = 0; i < vertices; i++){
+          for(int j = 0; j < vertices; j++){
+               if(graph[i][j] != 0){
+                    if(Value[0][j] > Value[0][i] + graph[i][j]){
+                         Value[0][j] = Value[0][i] + graph[i][j];
+                         Previous[0][j] = i;
+                    }
+               }
+          }
+     }
+};
+
 std::string TSM::Travelling(std::vector<std::vector<int>>& graph, int num, char Start) {
      std::vector<std::vector<int>> Value(1, std::vector<int>(num, INT_MAX));
      std::vector<std::vector<int>> Previous(1, std::vector<int>(num, -1));
      Value[0][Start - 'A'] = 0;
      for(int i = 0; i < num - 1; i++){
-          BellF bellF;
-          bellF.BF(graph, num, Start - 'A', Value, Previous);
+          tsm(graph, num, Start - 'A', Value, Previous);
      }
      std::string path = "";
      int current = Start - 'A';

@@ -10,7 +10,10 @@
 #include<cstring>
 #include<cassert>
 
-class BellF { 
+class BellmanFord;
+class TestStudy;
+
+class BellmanFord { 
 
 public:
      void BF(std::vector<std::vector<int>>& graph, int vertices, char Start, std::vector<std::vector<int>>& Value, std::vector<std::vector<int>>& Previous);

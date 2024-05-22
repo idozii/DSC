@@ -1,6 +1,9 @@
 #include "bellman.h"
 
-void BellF::BF(std::vector<std::vector<int>>& graph, int vertices, char Start, std::vector<std::vector<int>>& Value, std::vector<std::vector<int>>& Previous){
+class BellmanFord;
+class TestStudy;
+
+void BellmanFord::BF(std::vector<std::vector<int>>& graph, int vertices, char Start, std::vector<std::vector<int>>& Value, std::vector<std::vector<int>>& Previous){
      for(int i = 0; i < vertices; i++){
           for(int j = 0; j < vertices; j++){
                if(graph[i][j] != 0){
@@ -13,7 +16,7 @@ void BellF::BF(std::vector<std::vector<int>>& graph, int vertices, char Start, s
      }
 };
 
-std::string BellF::BF_Path(std::vector<std::vector<int>>& graph, int vertices, char Start, char Goal){
+std::string BellmanFord::BF_Path(std::vector<std::vector<int>>& graph, int vertices, char Start, char Goal){
      std::vector<std::vector<int>> Value(1, std::vector<int>(vertices, INT_MAX));
      std::vector<std::vector<int>> Previous(1, std::vector<int>(vertices, -1));
      Value[0][Start - 'A'] = 0;

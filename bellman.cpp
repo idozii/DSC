@@ -4,24 +4,31 @@ class BellmanFord;
 class TestStudy;
 
 void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Previous){
-     //Iteration for all vertices
+     //TODO: Initialize the value and previous arrays
      for(int i = 0; i < num; i++){
-          //Iteration for all edges
-          for(int j = 0; j < num; j++){
-               if(graph[i][j] != 0 && Value[i] + graph[i][j] < Value[j] && Value[i] != __INT_MAX__ && Value[i] + graph[i][j] > 0){
-                    Value[j] = Value[i] + graph[i][j];
-                    Previous[j] = i;
+          Value[i] = __INT_MAX__;
+          Previous[i] = -1;
+     }    
+     Value[Start - 'A'] = 0; 
+     
+     //TODO: Iteration for all vertices
+     for(int k = 0; k < num - 1; k++){
+          for(int i = 0; i < num; i++){
+               for(int j = 0; j < num; j++){
+                    if(graph[i][j] != 0 && Value[i] != __INT_MAX__ && Value[i] + graph[i][j] < Value[j]){
+                         Value[j] = Value[i] + graph[i][j];
+                         Previous[j] = i;
+                    }
                }
           }
      }
 
-     // Check for negative weight cycles
+     //TODO: Check for negative weight cycles
      for(int i = 0; i < num; i++){
           for(int j = 0; j < num; j++){
-               if(graph[i][j] != 0){
-                    if(Value[i] + graph[i][j] < Value[j]){
-                         std::cout << "Contains circuit of negative weight" << std::endl;
-                    }
+               if(graph[i][j] != 0 && Value[i] != __INT_MAX__ && Value[i] + graph[i][j] < Value[j]){
+                    cout << "Graph contains a negative-weight cycle" << endl;
+                    return;
                }
           }
      }
@@ -35,18 +42,16 @@ string BellmanFord::BF_Path(int graph[20][20], int num, char Start, char Goal){
           Previous[i] = -1;
      }
      Value[Start - 'A'] = 0;
-     for(int i = 0; i < num - 1; i++){
-          for(int j = 0; j < num; j++){
-               BF(graph, num, j, Value, Previous);
-          }
-     }
+     BF(graph, num, Start, Value, Previous);
      std::string path = "";
-     int current = Goal - 'A';
-     while(current != Start - 'A'){
-          path = path + " " + (char)(current + 'A');
-          current = Previous[current];
+     int temp = Goal - 'A';
+     while(temp != -1){
+          if(path != ""){
+               path = " " + path;
+          }
+          path = char(temp + 'A') + path;
+          temp = Previous[temp];
      }
-     path = Start + path;
      return path;
 };
 
@@ -58,18 +63,18 @@ int main(){
           {15, 35, 0, 30},
           {20, 25, 30, 0}
      };
-     int vertices = 4;
+     int num = 4;
      char Start = 'A';
      int Value[20];
      int Previous[20];
-     for(int i = 0; i < vertices; i++){
+     for(int i = 0; i < num; i++){
           Value[i] = __INT_MAX__;
           Previous[i] = -1;
      }
      Value[Start - 'A'] = 0;
      BellmanFord bf;
-     bf.BF(graph, vertices, Start, Value, Previous);
-     std::string path = bf.BF_Path(graph, vertices, Start, 'D');
+     bf.BF(graph, num, Start, Value, Previous);
+     std::string path = bf.BF_Path(graph, num, Start, 'D');
      std::cout << path << std::endl;
      return 0;
 }

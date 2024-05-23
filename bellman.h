@@ -15,6 +15,6 @@ class BellmanFord {
      friend class TestStudy;
 
 public:
-     void BF(int graph[20][20], int vertices, char Start, int Value[20], int Previous[20]);
-     string BF_Path(int graph[20][20], int vertices, char Start, char Goal);
+     void BF(int graph[20][20], int num, char Start, int *Value, int *Previous);
+     string BF_Path(int graph[20][20], int num, char Start, char Goal);
 };

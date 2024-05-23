@@ -25,7 +25,8 @@ void tc_01(){
     assert(path == "ABCD");
 };
 void tc_02(){
-    // write other test case
+    // write other test case for travelling function
+    
     
 };
 void tc_03(){

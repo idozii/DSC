@@ -7,9 +7,9 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": false,
-      "cwd": "/home/tuezz/Documents/CODING/C++/DSC",
-      "program": "/home/tuezz/Documents/CODING/C++/DSC/build/Debug/outDebug",
+      "externalConsole": true,
+      "cwd": "c:/Users/PC/Downloads/DSC",
+      "program": "c:/Users/PC/Downloads/DSC/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

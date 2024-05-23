@@ -4,11 +4,24 @@ class BellmanFord;
 class TestStudy;
 
 void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Previous){
+     //Iteration for all vertices
      for(int i = 0; i < num; i++){
-          if(graph[Start][i] != 0){
-               if(Value[i] > Value[Start] + graph[Start][i]){
-                    Value[i] = Value[Start] + graph[Start][i];
-                    Previous[i] = Start;
+          //Iteration for all edges
+          for(int j = 0; j < num; j++){
+               if(graph[i][j] != 0 && Value[i] + graph[i][j] < Value[j] && Value[i] != __INT_MAX__ && Value[i] + graph[i][j] > 0){
+                    Value[j] = Value[i] + graph[i][j];
+                    Previous[j] = i;
+               }
+          }
+     }
+
+     // Check for negative weight cycles
+     for(int i = 0; i < num; i++){
+          for(int j = 0; j < num; j++){
+               if(graph[i][j] != 0){
+                    if(Value[i] + graph[i][j] < Value[j]){
+                         std::cout << "Contains circuit of negative weight" << std::endl;
+                    }
                }
           }
      }

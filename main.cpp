@@ -33,8 +33,9 @@ void tc_03(){
     // write another test case
 };
 
-class TestStudy{
+class TestStudy {
 public:
+
     TestStudy() = default;
 
     static void tc_01(){

@@ -15,6 +15,6 @@ class TSM {
      friend class TestStudy;
 
 public:
-     void tsm(int graph[20][20], int vertices, char Start, int Value[20], int Previous[20]);
+     void tsm(int graph[20][20], int num, char Start, int *Value, int *Previous);
      string Travelling(int graph[20][20], int num, char Start);
 };

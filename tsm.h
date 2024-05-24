@@ -16,5 +16,6 @@ class TSM {
      friend class TestStudy;
 
 public:
+     const static int MAX = 999;
      string Traveling(int graph[20][20], int num, char Start);
 };

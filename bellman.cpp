@@ -3,8 +3,6 @@
 class BellmanFord;
 class TestStudy;
 
-static int MAX = 999;
-
 void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Previous){
      //TODO: Initialization steps:
      for(int i = 0; i < num; i++){

@@ -3,8 +3,6 @@
 class TSM;
 class TestStudy;
 
-static int MAX = 999;
-
 //TODO: Greedy algorithm
 string TSM::Traveling(int graph[20][20], int num, char Start){
      if (Start < 'A' || Start >= 'A' + num) {
@@ -36,15 +34,6 @@ string TSM::Traveling(int graph[20][20], int num, char Start){
           path += " ";
      }
      return path;
-};
-
-int pathlength(int graph[20][20], int num, string path){
-    int length = 0;
-    for(int i = 0; i < num - 1; i++){
-        length += graph[path[i] - 'A'][path[i + 1] - 'A'];
-    }
-    length += graph[path[num - 1] - 'A'][path[0] - 'A'];
-    return length;
 };
 
 int main(){

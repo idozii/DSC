@@ -3,67 +3,83 @@
 class TSM;
 class TestStudy;
 
+static int MAX = 999;
 
+//TODO: Greedy algorithm
 string TSM::Traveling(int graph[20][20], int num, char Start){
-     int Value[20];
-     int Previous[20];
-     for(int i = 0; i < num; i++){
-          Value[i] = __INT_MAX__;
-          Previous[i] = -1;
+     if (Start < 'A' || Start >= 'A' + num) {
+        return "Invalid start city";
      }
-     Value[Start - 'A'] = 0;
-
-     for(int k = 0; k < num - 1; k++){
-          for(int i = 0; i < num; i++){
-               for(int j = 0; j < num; j++){
-                    if(graph[i][j] != 0 && Value[i] != __INT_MAX__ && Value[i] + graph[i][j] < Value[j]){
-                         Value[j] = Value[i] + graph[i][j];
-                         Previous[j] = i;
-                    }
-               }
-          }
-     }
-
-     //TODO: Check for negative weight cycles
-     for(int i = 0; i < num; i++){
-          for(int j = 0; j < num; j++){
-               if(graph[i][j] != 0 && Value[i] != __INT_MAX__ && Value[i] + graph[i][j] < Value[j]){
-                    cout << "Graph contains a negative-weight cycle" << endl;
-                    return;
-               }
-          }
-     }
+     vector<bool> visited(num, false);
+     int start = Start - 'A';
+     visited[start] = true;
 
      string path = "";
-     int temp = 0;
-     for(int i = 1; i < num; i++){
-          if(Value[i] < Value[temp]){
-               temp = i;
+     path += Start;
+     path += " ";
+
+     for (int count = 0; count < num - 1; count++) {
+          int nearestCity = -1;
+          int min = MAX;
+          for (int i = 0; i < num; i++) {
+               if (!visited[i] && graph[start][i] && (nearestCity == -1 || graph[start][i] < min)) {
+                    min = graph[start][i];
+                    nearestCity = i;
+               }
           }
-     }
-     path = Start;
-     while(temp != -1){
-          if(path != ""){
-               path = " " + path;
+          if (nearestCity == -1) {
+               return "No path found";
           }
-          path = char(temp + 'A') + path;
-          temp = Previous[temp];
+          visited[nearestCity] = true;
+          start = nearestCity;
+          path += char(nearestCity + 'A');
+          path += " ";
      }
      return path;
 };
 
+int pathlength(int graph[20][20], int num, string path){
+    int length = 0;
+    for(int i = 0; i < num - 1; i++){
+        length += graph[path[i] - 'A'][path[i + 1] - 'A'];
+    }
+    length += graph[path[num - 1] - 'A'][path[0] - 'A'];
+    return length;
+};
+
 int main(){
-     // Test case 01
-     int graph[20][20] = {
-         {0, 10, 15, 20},
-         {10, 0, 35, 25},
-         {15, 35, 0, 30},
-         {20, 25, 30, 0}
-     };
-     int vertices = 12;
-     char Start = 'A';
+     //TODO: Test case 01: A B D C
      TSM tsm;
-     string path = tsm.Traveling(graph, vertices, Start);
-     cout << path << endl;
+     int graph[20][20] = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+     };
+     string result = tsm.Traveling(graph, 4, 'A');
+     cout<<result<<endl;
+
+     //TODO: Test case 02: C B E D A
+     TSM tsm1;
+     int graph1[20][20] = {
+        {0, 3, 13, 9, 7},
+        {3, 0, 6, 12, 10},
+        {13, 6, 0, 9, 6},
+        {9, 12, 9, 0, 8},
+        {7, 10, 6, 8, 0}
+     };
+     string result1 = tsm1.Traveling(graph1, 5, 'C');
+     cout<<result1<<endl;
+
+
+     //TODO: Test case 03: B A C
+     TSM tsm2;
+     int graph2[20][20] = {
+          {0, 1, 2},
+          {1, 0, 3},
+          {2, 3, 0}
+     };
+     string result2 = tsm2.Traveling(graph2, 3, 'B');
+     cout<<result2<<endl;
      return 0;
-}
+};

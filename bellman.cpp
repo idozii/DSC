@@ -3,6 +3,8 @@
 class BellmanFord;
 class TestStudy;
 
+static int MAX = 999;
+
 void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Previous){
      //TODO: Initialization steps:
      for(int i = 0; i < num; i++){
@@ -61,7 +63,8 @@ string BellmanFord::BF_Path(int graph[20][20], int num, char Start, char Goal){
 };
 
 int main(){
-     //TODO: Test case 1
+     //* Test case 1
+     cout<<"Test case 1"<<endl;
      int graph[20][20] = {
          {0, 10, 15, 20},
          {10, 0, 35, 25},
@@ -71,7 +74,8 @@ int main(){
      BellmanFord bf;
      cout << bf.BF_Path(graph, 4, 'A', 'D') << endl;
 
-     //TODO: Test case 2
+     //* Test case 2
+     cout<<"Test case 2"<<endl;
      int graph1[20][20] = {
         {0, 3, 13, 9, 7},
         {3, 0, 6, 12, 10},
@@ -82,7 +86,8 @@ int main(){
      BellmanFord bf1;
      cout << bf1.BF_Path(graph1, 5, 'A', 'C') << endl;
 
-     //TODO: Test case 3
+     //* Test case 3
+     cout<<"Test case 3"<<endl;
      int graph2[20][20] = {
           {0, 1, 2},
           {1, 0, 3},

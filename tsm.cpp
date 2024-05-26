@@ -3,10 +3,9 @@
 class TSM;
 class TestStudy;
 
-static int MAX = 999;
-
 //TODO: Greedy algorithm
 string TSM::Traveling(int graph[20][20], int num, char Start){
+     const static int MAX = 999;
      if (Start < 'A' || Start >= 'A' + num) {
         return "Invalid start city";
      }
@@ -18,6 +17,7 @@ string TSM::Traveling(int graph[20][20], int num, char Start){
      path += Start;
      path += " ";
 
+     int totalCost = 0;
      for (int count = 0; count < num - 1; count++) {
           int nearestCity = -1;
           int min = MAX;
@@ -31,11 +31,15 @@ string TSM::Traveling(int graph[20][20], int num, char Start){
                return "No path found";
           }
           visited[nearestCity] = true;
+          totalCost += min;
           start = nearestCity;
           path += char(nearestCity + 'A');
           path += " ";
      }
-     return path;
+     totalCost += graph[start][Start - 'A'];
+     path += Start;
+     path += " ";
+     return path + to_string(totalCost);
 };
 
 int main(){

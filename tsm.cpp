@@ -3,43 +3,55 @@
 class TSM;
 class TestStudy;
 
-//TODO: Greedy algorithm
+//TODO: Held-Karp algorithm (Travelling Salesman Problem, TSP)
 string TSM::Traveling(int graph[20][20], int num, char Start){
      const static int MAX = 999;
-     if (Start < 'A' || Start >= 'A' + num) {
-        return "Invalid start city";
+     int dp[1 << num][num];
+     int path[1 << num][num];
+     for(int i = 0; i < (1 << num); i++){
+          for(int j = 0; j < num; j++){
+               dp[i][j] = MAX;
+               path[i][j] = -1;
+          }
      }
-     vector<bool> visited(num, false);
-     int start = Start - 'A';
-     visited[start] = true;
-
-     string path = "";
-     path += Start;
-     path += " ";
-
-     int totalCost = 0;
-     for (int count = 0; count < num - 1; count++) {
-          int nearestCity = -1;
-          int min = MAX;
-          for (int i = 0; i < num; i++) {
-               if (!visited[i] && graph[start][i] < min) {
-                    min = graph[start][i];
-                    nearestCity = i;
+     dp[1 << (Start - 'A')][Start - 'A'] = 0;
+     for(int i = 0; i < (1 << num); i++){
+          for(int j = 0; j < num; j++){
+               if(i & (1 << j)){
+                    for(int k = 0; k < num; k++){
+                         if(i & (1 << k)){
+                              if(dp[i ^ (1 << j)][k] + graph[k][j] < dp[i][j]){
+                                   dp[i][j] = dp[i ^ (1 << j)][k] + graph[k][j];
+                                   path[i][j] = k;
+                              }
+                         }
+                    }
                }
           }
-          if (nearestCity == -1) {
-               return "No path found";
-          }
-          visited[nearestCity] = true;
-          totalCost += min;
-          start = nearestCity;
-          path += char(nearestCity + 'A');
-          path += " ";
      }
-     totalCost += graph[start][Start - 'A'];
-     path += Start;
-     path += " ";
-     return path + to_string(totalCost);
+     int min = MAX;
+     int min_index = -1;
+     for(int i = 0; i < num; i++){
+          if(i != Start - 'A'){
+               if(dp[(1 << num) - 1][i] + graph[i][Start - 'A'] < min){
+                    min = dp[(1 << num) - 1][i] + graph[i][Start - 'A'];
+                    min_index = i;
+               }
+          }
+     }
+     string result = "";
+     int temp = (1 << num) - 1;
+     int temp_index = min_index;
+     while(temp_index != -1){
+          if(result != ""){
+               result = " " + result;
+          }
+          result = char(temp_index + 'A') + result;
+          int temp2 = temp_index;
+          temp_index = path[temp][temp_index];
+          temp ^= (1 << temp2);
+     }
+     return result;  
 };
 
 int main(){

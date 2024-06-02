@@ -3,7 +3,7 @@
 class BellmanFord;
 class TestStudy;
 
-const static int MAX = 999;
+const static int MAX = 1000000;
 
 
 void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Previous){

@@ -4,38 +4,36 @@ class TSM;
 class TestStudy;
 
 string TSM::Traveling(int graph[20][20], int num, char Start){
-     const static int MAX = 999;
-     int dp[1 << num][num]; //* dp[i][j] means the minimum cost to visit all cities in i and end at city j
-     int path[1 << num][num]; //* path[i][j] means the previous city of city j in the path of i
+     const static int MAX = 1000000;
+     int Value[1 << num][num];
+     int previousCity[1 << num][num];
      for(int i = 0; i < (1 << num); i++){
           for(int j = 0; j < num; j++){
-               dp[i][j] = MAX; //* set up the init cost to MAX
-               path[i][j] = -1; //* set up the init path to -1
+               Value[i][j] = MAX;
+               previousCity[i][j] = -1;
           }
      }
-     dp[1 << (Start - 'A')][Start - 'A'] = 0; //* set up the init cost to 0
+     Value[1 << (Start - 'A')][Start - 'A'] = 0;
      for(int i = 0; i < (1 << num); i++){
           for(int j = 0; j < num; j++){
-               if(i & (1 << j)){ //* if city j is in the path of i
+               if(i & (1 << j)){
                     for(int k = 0; k < num; k++){
-                         if(i & (1 << k)){ //* if city k is in the path of i
-                              if(dp[i ^ (1 << j)][k] + graph[k][j] < dp[i][j]){ //* if the cost to visit city k and then city j is less than the cost to visit city j
-                                   dp[i][j] = dp[i ^ (1 << j)][k] + graph[k][j]; //* update the cost
-                                   path[i][j] = k; //* update the path
+                         if(i & (1 << k)){
+                              if(Value[i ^ (1 << j)][k] + graph[k][j] < Value[i][j]){
+                                   Value[i][j] = Value[i ^ (1 << j)][k] + graph[k][j]; 
+                                   previousCity[i][j] = k; 
                               }
                          }
                     }
                }
           }
      }
-     int min = MAX; //* find the minimum cost to visit all cities
-     int min_index = -1; //* find the city to start
+     int min = MAX;
+     int min_index = -1;
      for(int i = 0; i < num; i++){
-          if(i != Start - 'A'){
-               if(dp[(1 << num) - 1][i] + graph[i][Start - 'A'] < min){ //* if the cost to visit all cities and back to the start city is less than min
-                    min = dp[(1 << num) - 1][i] + graph[i][Start - 'A']; //* update the min cost
-                    min_index = i; //* update the city to start
-               }
+          if(i != Start - 'A' && Value[(1 << num) - 1][i] + graph[i][Start - 'A'] < min){
+               min = Value[(1 << num) - 1][i] + graph[i][Start - 'A'];
+               min_index = i;
           }
      }
 
@@ -48,10 +46,11 @@ string TSM::Traveling(int graph[20][20], int num, char Start){
           }
           result = char(temp_index + 'A') + result;
           int temp2 = temp_index;
-          temp_index = path[temp][temp_index]; //* find the previous city of city temp_index in the path of temp
-          temp ^= (1 << temp2); //* remove the city from the path
+          temp_index = previousCity[temp][temp_index];
+          temp ^= (1 << temp2);
      }
-     return result + " " + to_string(min);  
+     result = result + " " + Start;
+     return result;
 };
 
 int main(){
@@ -59,13 +58,12 @@ int main(){
      cout<<"Test case 1"<<endl;
      TSM tsm;
      int graph[20][20] = {
-          {0, 10, 15, 20, 30},
-          {10, 5, 30, 25, 15},
-          {15, 35, 15, 25, 20},
-          {20, 25, 30, 20, 5},
-          {30, 15, 20, 10, 0}
+          {0, 1, 15, 6},
+          {2, 0, 7, 3},
+          {9, 6, 0, 12},
+          {10, 4, 8, 0}
      };
-     string result = tsm.Traveling(graph, 5, 'B');
+     string result = tsm.Traveling(graph, 4, 'B');
      cout<<result<<endl;
 
      //*Test case 2

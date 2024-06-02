@@ -13,22 +13,22 @@ void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Pr
           Previous[i] = -1;
      }
      Value[Start - 'A'] = 0;
-     
      if(graph[Start - 'A'][0] == 0){
-          //TODO: Check the shortest path
-          for(int i = 0; i < num; i++){
+          for(int i = 0; i<num; i++){
                if(graph[Start - 'A'][i] != MAX){
                     Value[i] = graph[Start - 'A'][i];
                     Previous[i] = Start - 'A';
                }
           }
-     } else {
-          //TODO: Iteration steps:
+     }
+     else{
           for(int i = 0; i<num; i++){
                for(int j = 0; j<num; j++){
-                    if(Value[i] + graph[i][j] < Value[j] && graph[i][j] != MAX && Value[i] != MAX){
-                         Value[j] = Value[i] + graph[i][j];
-                         Previous[j] = i;
+                    if(graph[i][j] != MAX && Value[i] != MAX){
+                         if(Value[i] + graph[i][j] < Value[j]){
+                              Value[j] = Value[i] + graph[i][j];
+                              Previous[j] = i;
+                         }
                     }
                }
           }
@@ -37,9 +37,7 @@ void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Pr
 
 void BellmanFord::BFF(int graph[20][20], int num, char Start, int *Value, int *Previous){
      //*Explain: this function returns last step of above BF function
-     if(num <=0){
-          return;
-     }
+     if(num <=0) return;
      for(int i = 0; i < num; i++){
           Value[i] = MAX;
           Previous[i] = -1;
@@ -82,3 +80,20 @@ string BellmanFord::BF_Path(int graph[20][20], int num, char Start, char Goal){
 };
 
 //! Fix BF function
+
+int main(){
+     int graph[20][20] = {
+          {0, 10, 15, 20, 30},
+          {10, 0, 35, 25, 15},
+          {15, 35, 0, 30, 20},
+          {20, 25, 30, 0, 10},
+          {30, 15, 20, 10, 0}
+     };
+     BellmanFord bf;
+     int Value[20];
+     int Previous[20];
+     bf.BF(graph, 5, 'A', Value, Previous);
+     for(int i = 0; i < 5; i++){
+          cout<<"Step"<<": "<<Value[i]<<" "<<Previous[i]<<endl;
+     }
+}

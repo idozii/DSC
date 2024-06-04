@@ -6,21 +6,32 @@ class TestStudy;
 void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Previous){
      //*Explain: this function returns ONLY 1 step of BF function
      /*write function to calculate BF step by step */
-     static int step = 0;
-     if(num <=0 || num>20) return;
-     for(int i = 0; i < num; i++){
-          Value[i] = MAX;
-          Previous[i] = -1;
+     static int step = 1;
+     if(step == 1){
+          for(int i = 0; i < num; i++){
+                    Value[i] = MAX;
+                    Previous[i] = -1;
+               }
+               Value[Start - 'A'] = 0;
+               Previous[Start - 'A'] = -1;
+               for(int i = 0; i < num; i++){
+                    if(graph[Start - 'A'][i] != MAX && graph[Start - 'A'][i] != 0){
+                         Value[i] = graph[Start - 'A'][i];
+                         Previous[i] = Start - 'A';
+                    }
+               }
+               step++;
      }
-     Value[Start - 'A'] = 0;
-     Previous[Start - 'A'] = -1;
-     for(int i = 0; i < num; i++){
-          if(graph[Start - 'A'][i] != MAX && graph[Start - 'A'][i] != 0){
-               Value[i] = graph[Start - 'A'][i];
-               Previous[i] = Start - 'A';
+     else{
+          for(int i = 0; i < num; i++){
+               for(int j = 0; j < num; j++){
+                    if(Value[i] + graph[i][j] < Value[j] && graph[i][j] != MAX && graph[i][j] != 0 && Value[i] != MAX){
+                         Value[j] = Value[i] + graph[i][j];
+                         Previous[j] = i;
+                    }
+               }
           }
      }
-     step++;
 };
 
 void BellmanFord::BFF(int graph[20][20], int num, char Start, int *Value, int *Previous){

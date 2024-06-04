@@ -4,7 +4,6 @@ class TSM;
 class TestStudy;
 
 string TSM::Traveling(int graph[20][20], int num, char Start){
-     const static int MAX = 1000000;
      int Value[1 << num][num];
      int previousCity[1 << num][num];
      for(int i = 0; i < (1 << num); i++){

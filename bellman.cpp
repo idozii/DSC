@@ -43,17 +43,19 @@ void BellmanFord::BFF(int graph[20][20], int num, char Start, int *Value, int *P
      }    
      Value[Start - 'A'] = 0; 
      for(int k = 0; k < num - 1; k++){
+          int newValue[20];
+          for(int i = 0; i<num; i++){
+               newValue[i] = Value[i];
+          }
           for(int i = 0; i < num; i++){
                for(int j = 0; j < num; j++){
                     if(Value[i] + graph[i][j] < Value[j] && graph[i][j] != MAX && graph[i][j] != 0 && Value[i] != MAX){
-                         Value[j] = Value[i] + graph[i][j];
+                         Value[j] = newValue[i] + graph[i][j];
                          Previous[j] = i;
                     }
                }
           }
      }
-     /*case when two path has same length*/
-     
      for(int i = 0; i < num; i++){
           for(int j = 0; j < num; j++){
                if(Value[i] + graph[i][j] < Value[j]){

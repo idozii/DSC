@@ -4,21 +4,19 @@
 #include<iomanip>
 #include<cmath>
 #include<cstring>
-#include<cassert>
 #include<fstream>
-#include<vector>
 
 using namespace std;
 
-class TSM;
+class TSP;
 class TestStudy;
 
-class TSM {
+class TSP {
      friend class TestStudy;
 
 protected:
      const static int MAX = 1000000;
      
 public:
-     string Traveling(int graph[20][20], int num, char Start);
+     string Traveling(int given_Graph[20][20], int total_City, char init_City);
 };

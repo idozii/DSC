@@ -1,25 +1,29 @@
 #include "tsm.h"
 
-class TSM;
+class TSP;
 class TestStudy;
 
-string TSM::Traveling(int graph[20][20], int num, char Start){
-     int Value[1 << num][num];
-     int previousCity[1 << num][num];
-     for(int i = 0; i < (1 << num); i++){
-          for(int j = 0; j < num; j++){
-               Value[i][j] = MAX;
+string TSP::Traveling(int given_Graph[20][20], int total_City, char init_City){
+     //*Explain: this function returns the shortest possible route to solve TSP problem
+     //! INITIALIZATION
+     int Ticket[1 << total_City][total_City];
+     int previousCity[1 << total_City][total_City];
+     for(int i = 0; i < (1 << total_City); i++){
+          for(int j = 0; j < total_City; j++){
+               Ticket[i][j] = MAX;
                previousCity[i][j] = -1;
           }
      }
-     Value[1 << (Start - 'A')][Start - 'A'] = 0;
-     for(int i = 0; i < (1 << num); i++){
-          for(int j = 0; j < num; j++){
+     Ticket[1 << (init_City - 'A')][init_City - 'A'] = 0;
+
+     //! ITERATION CALCULATION
+     for(int i = 0; i < (1 << total_City); i++){
+          for(int j = 0; j < total_City; j++){
                if(i & (1 << j)){
-                    for(int k = 0; k < num; k++){
+                    for(int k = 0; k < total_City; k++){
                          if(i & (1 << k)){
-                              if(Value[i ^ (1 << j)][k] + graph[k][j] < Value[i][j]){
-                                   Value[i][j] = Value[i ^ (1 << j)][k] + graph[k][j]; 
+                              if(Ticket[i ^ (1 << j)][k] + given_Graph[k][j] < Ticket[i][j]){
+                                   Ticket[i][j] = Ticket[i ^ (1 << j)][k] + given_Graph[k][j]; 
                                    previousCity[i][j] = k; 
                               }
                          }
@@ -27,27 +31,30 @@ string TSM::Traveling(int graph[20][20], int num, char Start){
                }
           }
      }
-     int min = MAX;
-     int min_index = -1;
-     for(int i = 0; i < num; i++){
-          if(i != Start - 'A' && Value[(1 << num) - 1][i] + graph[i][Start - 'A'] < min){
-               min = Value[(1 << num) - 1][i] + graph[i][Start - 'A'];
-               min_index = i;
+
+     //! FINDING THE SHORTEST ROUTE
+     int min_Ticket = MAX;
+     int min_Position = -1;
+     for(int i = 0; i < total_City; i++){
+          if(i != init_City - 'A' && Ticket[(1 << total_City) - 1][i] + given_Graph[i][init_City - 'A'] < min_Ticket){
+               min_Ticket = Ticket[(1 << total_City) - 1][i] + given_Graph[i][init_City - 'A'];
+               min_Position = i;
           }
      }
 
+     //! PRINTING RESULT
      string result = "";
-     int temp = (1 << num) - 1; 
-     int temp_index = min_index; 
-     while(temp_index != -1){
+     int temp = (1 << total_City) - 1; 
+     int temp_Position = min_Position; 
+     while(temp_Position != -1){
           if(result != ""){
                result = " " + result;
           }
-          result = char(temp_index + 'A') + result;
-          int temp2 = temp_index;
-          temp_index = previousCity[temp][temp_index];
+          result = char(temp_Position + 'A') + result;
+          int temp2 = temp_Position;
+          temp_Position = previousCity[temp][temp_Position];
           temp ^= (1 << temp2);
      }
-     result = result + " " + Start;
+     result = result + " " + init_City;
      return result;
 };

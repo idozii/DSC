@@ -7,10 +7,13 @@ void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Pr
      //*Explain: this function returns ONLY 1 step of BF function
      bool check = Value[0] != -1 ? true : false;
      if(check){
+          //! COPYING VALUE
           int newValue[20];
           for(int i = 0; i < num; i++){
                newValue[i] = Value[i];
           }
+
+          //! ITERATION STEPS
           for(int i = 0; i < num; i++){
                for(int j = 0; j < num; j++){
                     if(graph[i][j] != 0 && newValue[i] != -1){
@@ -23,6 +26,7 @@ void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Pr
           }
      }
      else{
+          //! INITIALIZATION
           for(int i = 0; i < num; i++){
                if(graph[Start - 'A'][i] != 0){
                     Value[i] = graph[Start - 'A'][i];
@@ -37,12 +41,16 @@ void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Pr
 void BellmanFord::BFF(int graph[20][20], int num, char Start, int *Value, int *Previous){
      //*Explain: this function returns last step of above BF function
      if(num <=0 || num>20) return;
+     //! INITIALIZATION
      for(int i = 0; i < num; i++){
           Value[i] = MAX;
           Previous[i] = -1;
      }    
      Value[Start - 'A'] = 0; 
+
+     //! ITERATION STEPS
      for(int k = 0; k < num - 1; k++){
+          //! COPYING VALUE
           int newValue[20];
           for(int i = 0; i<num; i++){
                newValue[i] = Value[i];
@@ -56,6 +64,8 @@ void BellmanFord::BFF(int graph[20][20], int num, char Start, int *Value, int *P
                }
           }
      }
+
+     //! CHECKING NEGATIVE CYCLE
      for(int i = 0; i < num; i++){
           for(int j = 0; j < num; j++){
                if(Value[i] + graph[i][j] < Value[j]){
@@ -67,9 +77,14 @@ void BellmanFord::BFF(int graph[20][20], int num, char Start, int *Value, int *P
 
 string BellmanFord::BF_Path(int graph[20][20], int num, char Start, char Goal){
      //*Explain: this function returns the shortest path from Start to Goal
+     //! INITIALIZATION
      int Value[20];
      int Previous[20];
+
+     //! CALLING BFF FUNCTION
      BFF(graph, num, Start, Value, Previous);
+
+     //! PRINTING PATH
      string path = "";
      int temp = Goal - 'A';
      while(temp != -1){

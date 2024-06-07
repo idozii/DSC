@@ -14,17 +14,21 @@ void BellmanFord::BF(int graph[20][20], int num, char Start, int *Value, int *Pr
           }
           for(int i = 0; i < num; i++){
                for(int j = 0; j < num; j++){
-                    if(newValue[i] + graph[i][j] < Value[j] && graph[i][j] != 0 || (Value[i]==-1 && newValue[i]==-1)){
-                         Value[j] = newValue[i] + graph[i][j];
-                         Previous[j] = i;
+                    if(graph[i][j] != 0){
+                         if(newValue[i] + graph[i][j] < Value[j] || (Value[i]==-1 && newValue[i]==-1)){
+                              Value[j] = newValue[i] + graph[i][j];
+                              Previous[j] = i;
+                         }
                     }
                }
           }
      }
      else{
           for(int i = 0; i < num; i++){
-               Value[i] = graph[Start - 'A'][i];
-               Previous[i] = Start - 'A';
+               if(graph[Start - 'A'][i] != 0){
+                    Value[i] = graph[Start - 'A'][i];
+                    Previous[i] = Start - 'A';
+               }
           }
           Value[Start - 'A'] = 0;
           Previous[Start - 'A'] = -1;

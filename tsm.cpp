@@ -6,9 +6,11 @@ class TestStudy;
 string TSP::Traveling(int given_Graph[20][20], int total_City, char init_City){
      //*Explain: this function returns the shortest possible route to solve TSP problem
      //! INITIALIZATION
-     int Ticket[1 << total_City][total_City];
-     int previousCity[1 << total_City][total_City];
+     int** Ticket = new int*[1 << total_City];
+     int** previousCity = new int*[1 << total_City];
      for(int i = 0; i < (1 << total_City); i++){
+          Ticket[i] = new int[total_City];
+          previousCity[i] = new int[total_City];
           for(int j = 0; j < total_City; j++){
                Ticket[i][j] = MAX;
                previousCity[i][j] = -1;
@@ -56,5 +58,13 @@ string TSP::Traveling(int given_Graph[20][20], int total_City, char init_City){
           temp ^= (1 << temp2);
      }
      result = result + " " + init_City;
+
+     //! DEALLOCATION TO AVOID MEMORY LEAK
+     for(int i = 0; i < (1 << total_City); i++){
+          delete[] Ticket[i];
+          delete[] previousCity[i];
+     }
+     delete[] Ticket;
+     delete[] previousCity;
      return result;
 };
